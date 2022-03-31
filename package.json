@@ -1,0 +1,8 @@
+{
+  "name": "nest-products",
+  "version": "1.0.0",
+  "description": "NestJS, MongoDB",
+  "repository": "git@github.com:nazarvynn/nest-products.git",
+  "author": "Nazar Vynnytskyi <nazar.vynn@gmail.com>",
+  "license": "MIT"
+}
