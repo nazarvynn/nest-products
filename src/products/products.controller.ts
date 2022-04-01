@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Header, HttpCode, HttpStatus, Param, Patch, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Header, HttpCode, HttpStatus, Param, Patch, Post } from '@nestjs/common';
 
-import { CreateProductDto, UpdateProductDto, PartialUpdateProductDto } from './dto';
+import { CreateProductDto, UpdateProductDto } from './dto';
 import { ProductsService } from './products.service';
+import { Product } from './schemas/product.schema';
 
 @Controller('products')
 export class ProductsController {
@@ -9,34 +10,29 @@ export class ProductsController {
 
   @Get()
   // @Redirect('https://google.com', HttpStatus.PERMANENT_REDIRECT)
-  getAll(): Record<string, any>[] {
+  getAll(): Promise<Product[]> {
     return this.productsService.getAll();
   }
 
   @Get(':id')
-  getOne(@Param('id') id: string): Record<string, any> {
+  getOne(@Param('id') id: string): Promise<Product> {
     return this.productsService.getById(id);
   }
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
   @Header('Cache-control', 'none')
-  create(@Body() createProductDto: CreateProductDto): Record<string, any> {
+  create(@Body() createProductDto: CreateProductDto): Promise<Product> {
     return this.productsService.create(createProductDto);
   }
 
-  @Put(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto): string {
-    return 'Update: ' + id;
-  }
-
   @Patch(':id')
-  partialUpdate(@Param('id') id: string, @Body() partialUpdateProductDto: PartialUpdateProductDto): string {
-    return 'partialUpdate: ' + id;
+  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto): Promise<Product> {
+    return this.productsService.update(id, updateProductDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): string {
-    return 'Remove: ' + id;
+  remove(@Param('id') id: string): Promise<Product> {
+    return this.productsService.remove(id);
   }
 }
