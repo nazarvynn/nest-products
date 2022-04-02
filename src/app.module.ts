@@ -14,7 +14,7 @@ import { CategoriesModule } from './categories/categories.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (config: ConfigService) => ({
-        uri: config.get('db.uri'),
+        uri: config.get<string>('db.uri'),
         useNewUrlParser: true,
         useUnifiedTopology: true,
       }),
