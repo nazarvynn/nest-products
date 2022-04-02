@@ -6,6 +6,9 @@ export type ProductDocument = Product & Document;
 @Schema()
 export class Product {
   @Prop()
+  categoryId: string;
+
+  @Prop()
   title: string;
 
   @Prop()

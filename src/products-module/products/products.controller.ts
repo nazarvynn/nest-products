@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Header, HttpCode, HttpStatus, Param, Pat
 
 import { CreateProductDto, UpdateProductDto } from '../../@shared/dto';
 import { Product } from '../../@shared/schemas';
-import { ProductsService } from './products.service';
+import { ProductsService } from '../../@shared/services';
 
 @Controller()
 export class ProductsController {

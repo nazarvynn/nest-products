@@ -1,13 +1,11 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
 
-import { ProductsService } from './products/products.service';
+import { SharedModule } from '../@shared/shared.module';
 import { ProductsController } from './products/products.controller';
-import { Product, ProductSchema } from '../@shared/schemas/product.schema';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: Product.name, schema: ProductSchema }])],
+  imports: [SharedModule],
   controllers: [ProductsController],
-  providers: [ProductsService],
+  providers: [],
 })
 export class ProductsModule {}
