@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
-import { CreateProductDto, UpdateProductDto } from './dto';
-import { Product, ProductDocument } from './schemas/product.schema';
+import { CreateProductDto, UpdateProductDto } from '../../@shared/dto';
+import { Product, ProductDocument } from '../../@shared/schemas';
 
 @Injectable()
 export class ProductsService {

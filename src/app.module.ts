@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
+import { RouterModule } from '@nestjs/core';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+
 import configuration from '../config/configuration';
-import { ProductsModule } from './products/products.module';
-import { CategoriesModule } from './categories/categories.module';
+import appRouter from './app-router';
+import { CategoriesModule } from './categories-module/categories.module';
+import { ProductsModule } from './products-module/products.module';
 
 @Module({
   imports: [
@@ -19,8 +22,9 @@ import { CategoriesModule } from './categories/categories.module';
         useUnifiedTopology: true,
       }),
     }),
-    ProductsModule,
+    RouterModule.register(appRouter),
     CategoriesModule,
+    ProductsModule,
   ],
   controllers: [],
   providers: [],

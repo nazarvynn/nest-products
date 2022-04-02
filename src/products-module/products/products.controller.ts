@@ -1,15 +1,14 @@
 import { Body, Controller, Delete, Get, Header, HttpCode, HttpStatus, Param, Patch, Post } from '@nestjs/common';
 
-import { CreateProductDto, UpdateProductDto } from './dto';
+import { CreateProductDto, UpdateProductDto } from '../../@shared/dto';
+import { Product } from '../../@shared/schemas';
 import { ProductsService } from './products.service';
-import { Product } from './schemas/product.schema';
 
-@Controller('products')
+@Controller()
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Get()
-  // @Redirect('https://google.com', HttpStatus.PERMANENT_REDIRECT)
   getAll(): Promise<Product[]> {
     return this.productsService.getAll();
   }
