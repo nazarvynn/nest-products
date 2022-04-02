@@ -2,33 +2,34 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 
 import { CreateCategoryDto, UpdateCategoryDto } from './dto';
 import { CategoriesService } from './categories.service';
+import { Category } from './schemas/category.schema';
 
 @Controller('categories')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
-  @Post()
-  create(@Body() createCategoryDto: CreateCategoryDto) {
-    return this.categoriesService.create(createCategoryDto);
-  }
-
   @Get()
-  findAll() {
+  findAll(): Promise<Category[]> {
     return this.categoriesService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.categoriesService.findOne(+id);
+  findOne(@Param('id') id: string): Promise<Category> {
+    return this.categoriesService.findOne(id);
+  }
+
+  @Post()
+  create(@Body() createCategoryDto: CreateCategoryDto): Promise<Category> {
+    return this.categoriesService.create(createCategoryDto);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCategoryDto: UpdateCategoryDto) {
-    return this.categoriesService.update(+id, updateCategoryDto);
+  update(@Param('id') id: string, @Body() updateCategoryDto: UpdateCategoryDto): Promise<Category> {
+    return this.categoriesService.update(id, updateCategoryDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.categoriesService.remove(+id);
+  remove(@Param('id') id: string): Promise<Category> {
+    return this.categoriesService.remove(id);
   }
 }
