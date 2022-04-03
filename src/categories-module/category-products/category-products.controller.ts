@@ -9,27 +9,23 @@ export class CategoryProductsController {
   constructor(private readonly categoryProductsService: CategoryProductsService) {}
 
   @Get()
-  findAll(@Param('categoryId') categoryId: string) {
+  findAll(@Param('categoryId') categoryId: string): Promise<Product[]> {
     return this.categoryProductsService.findAll(categoryId);
   }
 
   @Get(':productId')
-  findOne(@Param('categoryId') categoryId: string, @Param('productId') productId: string) {
+  findOne(@Param('categoryId') categoryId: string, @Param('productId') productId: string): Promise<Product> {
     return this.categoryProductsService.findOne(categoryId, productId);
   }
 
   @Post()
-  create(@Param('categoryId') categoryId: string, @Body() createProductDto: CreateProductDto) {
+  create(@Param('categoryId') categoryId: string, @Body() createProductDto: CreateProductDto): Promise<Product> {
     return this.categoryProductsService.create(categoryId, createProductDto);
   }
 
   @Patch(':productId')
-  update(
-    @Param('categoryId') categoryId: string,
-    @Param('productId') productId: string,
-    @Body() updateProductDto: UpdateProductDto,
-  ) {
-    return this.categoryProductsService.update(categoryId, productId, updateProductDto);
+  update(@Param('productId') productId: string, @Body() updateProductDto: UpdateProductDto): Promise<Product> {
+    return this.categoryProductsService.update(productId, updateProductDto);
   }
 
   @Delete(':productId')

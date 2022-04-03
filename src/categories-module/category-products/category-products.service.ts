@@ -13,35 +13,52 @@ export class CategoryProductsService {
     @InjectModel(Product.name) private productModel: Model<ProductDocument>,
   ) {}
 
-  findAll(categoryId: string) {
-    return this.categoryModel.findById(categoryId).get('products');
-    // return `[GET] Category ID: ${categoryId}, All Products `;
+  async findAll(categoryId: string): Promise<Product[]> {
+    const { products } = await this.categoryModel.findById(categoryId, { products: 1 }).populate('products');
+    return products;
   }
 
-  findOne(categoryId: string, productId: string) {
-    return `[GET] Category ID: ${categoryId}, Product ID: ${productId}`;
+  async findOne(categoryId: string, productId: string): Promise<Product> {
+    const { products } = await this.categoryModel.findById(categoryId, { products: productId }).populate('products');
+    return products[0];
   }
 
-  create(categoryId: string, createProductDto: CreateProductDto) {
-    const createdProduct = new this.productModel({ ...createProductDto, categoryId });
-    this.categoryModel.findByIdAndUpdate(
+  async create(categoryId: string, productDto: CreateProductDto): Promise<Product> {
+    const createdProduct = await new this.productModel({ ...productDto, categoryId }).save();
+
+    await this.categoryModel.findByIdAndUpdate(
       categoryId,
-      { $push: { products: createdProduct } },
+      { $push: { products: createdProduct._id } },
       { new: true, useFindAndModify: false },
     );
-    return createdProduct.save();
-
-    // return `[POST] Category ID: ${categoryId}, Product Body: ${JSON.stringify(createProductDto || {})}`;
+    return createdProduct;
   }
 
-  update(categoryId: string, productId: string, updateProductDto: UpdateProductDto) {
-    // return this.categoryModel.findByIdAndUpdate(categoryId, { ...updateProductDto, categoryId }, { new: true });
-    return `[PATCH] Category ID: ${categoryId}, Product ID: ${productId}, Product Body: ${JSON.stringify(
-      updateProductDto || {},
-    )}`;
+  async update(productId: string, productDto: UpdateProductDto): Promise<Product> {
+    return this.productModel.findByIdAndUpdate(productId, productDto, { new: true });
   }
 
-  remove(categoryId: string, productId: string) {
-    return `[DELETE] Category ID: ${categoryId}, Product ID: ${productId}`;
+  async remove(categoryId: string, productId: string): Promise<Product> {
+    await this.categoryModel.findByIdAndUpdate(categoryId, { $pull: { products: productId } });
+    return this.productModel.findByIdAndRemove(productId);
   }
 }
+
+// TODO: Examples
+/*
+const addProductToCategory = (categoryId, product) => {
+  return this.categoryModel.findByIdAndUpdate(
+    categoryId,
+    { $push: { products: product._id } },
+    { new: true, useFindAndModify: false },
+  )
+}
+
+const addCategoryToProduct = (productId, category) => {
+  return this.productModel.findByIdAndUpdate(
+    productId,
+    { $push: { categories: category._id } },
+    { new: true, useFindAndModify: false },
+  )
+}
+*/
