@@ -1,19 +1,6 @@
 ## Description
 Nest application with Categories and Products
 
-## Done
-- [x] Setup Nest app
-- [x] Create Category entity
-- [x] Create Product entity
-- [x] Connect with Mongo DB
-- [x] Configure Port and DB connection
-- [ ] Implement Nested relations between Category and Products
-- [ ] Create Category w/o Product
-- [ ] Create Category w/ Product
-- [ ] Create Product w/o Category
-- [ ] Create Product w/ Category
-- [ ] Create migration to add/remove new column for Products
-
 ## Installation
 
 ```bash
@@ -45,3 +32,31 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
+
+## Completed Tasks
+- [x] Setup Nest app
+- [x] Create Category entity
+- [x] Create Product entity
+- [x] Connect with Mongo DB
+- [x] Configure Port and DB connection
+- [x] Implement entities Category and Product
+    ```
+    Category
+    title: "Category-1"
+    products: ["product_id_1", "product_id_2", "product_id_2"]
+    
+    Product
+    title: "Product-1"
+    price: 2000
+    category: "category_id_1"
+    ``` 
+- [x] Implement REST API
+    ```
+    [GET, POST]             /categories
+    [GET, PATCH, DELETE]    /categories/<category_id>
+    [GET, POST]             /categories/<category_id>/products
+    [GET, PATCH, DELETE]    /categories/<category_id>/products/<product_id>
+    
+    [GET, POST]             /products
+    [GET, PATCH, DELETE]    /products/<product_id>
+    ```
