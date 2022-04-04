@@ -1,5 +1,5 @@
 ## Description
-Nest application with Categories and Products
+Nest application with Categories and Products.
 
 ## Installation
 
